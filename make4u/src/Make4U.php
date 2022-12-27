@@ -2,11 +2,7 @@
 
 namespace Make4U;
 
-use Make4U\Framework\Config;
 use Make4U\Framework\Container;
-use Make4U\Framework\Http\Uri;
-use Make4U\Framework\Request;
-use Make4U\Framework\Response;
 use Make4U\Framework\Traits\Singleton;
 
 defined('MAKE4U') || die;
@@ -20,18 +16,22 @@ class Make4U
 
     use Singleton;
 
-    protected function __construct() {
-        /*$container = $this->service();
-
-        Config::init($container->get('file'));*/
+    protected function __construct()
+    {
+        $container = $this->service();
+        $container->get('Test');
     }
 
-    /*private function service():Container
+    private function service(): Container
     {
-        return new Container([
-            'file'=>'File::class'
+        return Container::init([
+            'ContainerTest' => Test\ContainerTest::class,
+            'Test' => Test\Test::class,
+            /*'Tet' => function () {
+                return new Test\Test(new Test\ContainerTest);
+            }*/
         ]);
-    }*/
+    }
 
     public function run()
     {
