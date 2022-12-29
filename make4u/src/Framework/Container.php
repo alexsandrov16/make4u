@@ -10,6 +10,8 @@ defined('MAKE4U') || die;
 
 /**
  * Contenedor de Servicios
+ * 
+ * Para versiones futuras
  */
 class Container
 {
@@ -24,7 +26,7 @@ class Container
     {
         if ($this->has($id)) throw new Exception("Error Processing Request", 1);
 
-        $service = !is_null($service) ?? $id;
+        $service = $service ?? $id;
 
         $this->services[$id] = $service;
         return $this;
@@ -37,7 +39,7 @@ class Container
                 return $this->autowiring($this->services[$id]);
             }
             if (is_callable($this->services[$id])) {
-                # code...
+                return $this->handwiring($this->services[$id]);
             }
         }
         throw new Exception("NotFoundException Interface", 1);
@@ -48,7 +50,7 @@ class Container
         return key_exists($id, $this->services);
     }
 
-    public function autowiring(string $service)
+    public function autowiring(string $service):object
     {
         $ref = new ReflectionClass($service);
         $dependencies = [];
@@ -79,7 +81,12 @@ class Container
                 return $ref->newInstanceArgs($dependencies);;
             }
         }
-        throw new Exception("Error Processing Request", 1);
+        throw new Exception("ContainerException Interface. ", 1);
+    }
+
+    public function handWiring(Type $var = null)
+    {
+        # code...
     }
 
 

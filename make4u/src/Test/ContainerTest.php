@@ -8,6 +8,11 @@ namespace Make4U\Test;
 class ContainerTest
 {
     public function __construct() {
-        echo __CLASS__;
+        $this->name= __CLASS__;
+    }
+
+    public function render()
+    {
+        echo $this->name;
     }
 }

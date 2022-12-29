@@ -2,7 +2,7 @@
 
 namespace Make4U;
 
-use Make4U\Framework\Container;
+use Make4U\Framework\Config;
 use Make4U\Framework\Traits\Singleton;
 
 defined('MAKE4U') || die;
@@ -18,19 +18,13 @@ class Make4U
 
     protected function __construct()
     {
-        $container = $this->service();
-        $container->get('Test');
-    }
+        Config::init();
 
-    private function service(): Container
-    {
-        return Container::init([
-            'ContainerTest' => Test\ContainerTest::class,
-            'Test' => Test\Test::class,
-            /*'Tet' => function () {
-                return new Test\Test(new Test\ContainerTest);
-            }*/
-        ]);
+        Service::class;
+
+        Debug::class;
+
+        Router::class;
     }
 
     public function run()
