@@ -5,9 +5,6 @@ namespace Make4U\Framework;
 use Exception;
 use Make4U\Framework\Traits\Singleton;
 use ReflectionClass;
-use ReflectionMethod;
-use ReflectionParameter;
-use ReflectionProperty;
 
 defined('MAKE4U') || die;
 
@@ -23,9 +20,11 @@ class Container
         $this->services = $services;
     }
 
-    public function set(string $id, string|callable $service): Container
+    public function set(string $id, string|callable $service = null): Container
     {
         if ($this->has($id)) throw new Exception("Error Processing Request", 1);
+
+        $service = !is_null($service) ?? $id;
 
         $this->services[$id] = $service;
         return $this;
@@ -52,17 +51,35 @@ class Container
     public function autowiring(string $service)
     {
         $ref = new ReflectionClass($service);
+        $dependencies = [];
 
         if ($ref->isInstantiable()) {
-            if (!is_null($con = $ref->getConstructor())) {
-                $parameters = $con->getParameters();
+            //Valida constructor
+            if ($ref->getConstructor() === null) {
+                return $ref->newInstance();
+            } else {
+                $parameters = $ref->getConstructor()->getParameters();
 
-                $p = new ReflectionParameter($parameters);
-    
-                return var_dump($p);
-    
+                foreach ($parameters as $parameter) {
+                    //valida parametros
+                    $dependency = $parameter->getClass();
+
+                    if ($dependency !== null) {
+
+                        $this->set($dependency->name);
+                        $dependencies[] = $this->get($dependency->name);
+                    } else {
+                        if ($parameter->isDefaultValueAvailable()) {
+                            //obtener el valor predeterminado del parámetro
+                            $dependencies[] = $parameter->getDefaultValue();
+                        }
+                    }
+                }
+
+                return $ref->newInstanceArgs($dependencies);;
             }
         }
+        throw new Exception("Error Processing Request", 1);
     }
 
 
