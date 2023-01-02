@@ -2,6 +2,7 @@
 
 namespace Make4U\Framework;
 
+use Make4U\Framework\Interfaces\FileFactoryInterface;
 use Make4U\Framework\Traits\Singleton;
 
 defined('MAKE4U') || die;
@@ -13,8 +14,9 @@ class Config
 {
     use Singleton;
 
-    protected function __construct() {
-        $this->load('');
+    protected function __construct(FileFactoryInterface $php) {
+        echo $php;
+        //$this->load('');
     }
 
     public function load(string $file)

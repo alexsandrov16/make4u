@@ -3,6 +3,8 @@
 namespace Make4U;
 
 use Make4U\Framework\Config;
+use Make4U\Framework\File;
+use Make4U\Framework\PHPFactory;
 use Make4U\Framework\Traits\Singleton;
 
 defined('MAKE4U') || die;
@@ -18,7 +20,7 @@ class Make4U
 
     protected function __construct()
     {
-        Config::init();
+        Config::init(new PHPFactory);
 
         Service::class;
 
