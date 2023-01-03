@@ -14,9 +14,8 @@ class Config
 {
     use Singleton;
 
-    protected function __construct(FileFactoryInterface $php) {
-        echo $php;
-        //$this->load('');
+    protected function __construct() {
+        # code...
     }
 
     public function load(string $file)

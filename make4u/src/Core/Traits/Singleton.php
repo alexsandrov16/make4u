@@ -1,6 +1,6 @@
 <?php
 
-namespace Make4U\Framework\Traits;
+namespace Make4U\Core\Traits;
 
 defined('MAKE4U') || die;
 
