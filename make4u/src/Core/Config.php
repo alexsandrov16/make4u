@@ -1,9 +1,8 @@
 <?php
 
-namespace Make4U\Framework;
+namespace Make4U\Core;
 
-use Make4U\Framework\Interfaces\FileFactoryInterface;
-use Make4U\Framework\Traits\Singleton;
+use Make4U\Core\Traits\Singleton;
 
 defined('MAKE4U') || die;
 
